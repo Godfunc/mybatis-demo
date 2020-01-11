@@ -1,0 +1,20 @@
+version: 2
+jobs:
+  test:
+    docker:
+      - image: circleci/openjdk:8-jdk-stretch
+    steps:
+      - checkout
+      - restore_cache:
+          key: mybatis-demo-{{ checksum "pom.xml" }}
+      - run: mvn dependency:go-offline
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: mybatis-demo-{{ checksum "pom.xml" }}
+      - run: mvn clean test
+workflows:
+  version: 2
+  default:
+    jobs:
+      - test
