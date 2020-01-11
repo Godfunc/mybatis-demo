@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.godfunc.mapper.UserMapper">
+    <cache/>
+    <resultMap id="userMap" type="com.godfunc.entity.User">
+        <id property="id" column="id"/>
+        <result property="age" column="age"/>
+        <result property="name" column="name/"/>
+    </resultMap>
+    <sql id="userSql">
+        select id, name user_name, name, age
+    </sql>
+    <select id="selectUser" resultType="com.godfunc.entity.User">
+        <include refid="userSql"/> from t_user where id = #{id}
+    </select>
+    <select id="selectList" resultType="com.godfunc.entity.User">
+        select * from t_user limit 10
+    </select>
+</mapper>
