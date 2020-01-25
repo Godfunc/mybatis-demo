@@ -14,6 +14,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.*;
+import java.sql.*;
 import java.util.List;
 
 public class SqlSessionFactoryTest {
@@ -55,6 +56,33 @@ public class SqlSessionFactoryTest {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
         User user = userMapper.selectUser(2L);
+    }
+
+    @Test
+    @Ignore
+    public void executorJdbcSelectTest() throws SQLException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mybatis", "root", "q12345678.");
+        PreparedStatement preparedStatement = connection.prepareStatement("select * from t_user where id = ?");
+        preparedStatement.setLong(1, 1L);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            User user = new User();
+            String idLabel = resultSet.getMetaData().getColumnLabel(1);
+            Method idSet = user.getClass().getDeclaredMethod("set" + idLabel.substring(0, 1).toUpperCase() + idLabel.substring(1), Long.class);
+            long id = resultSet.getLong(1);
+            idSet.invoke(user, id);
+
+            String nameLabel = resultSet.getMetaData().getColumnLabel(2);
+            Method setName = user.getClass().getDeclaredMethod("set" + nameLabel.substring(0, 1).toUpperCase() + nameLabel.substring(1), String.class);
+            String name = resultSet.getString(2);
+            setName.invoke(user, name);
+
+            String ageLabel = resultSet.getMetaData().getColumnLabel(3);
+            Method setAge = user.getClass().getDeclaredMethod("set" + ageLabel.substring(0, 1).toUpperCase() + ageLabel.substring(1), Integer.class);
+            int age = resultSet.getInt(3);
+            setAge.invoke(user, age);
+
+        }
     }
 
     /**
