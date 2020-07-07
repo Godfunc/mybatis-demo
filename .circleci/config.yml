@@ -31,16 +31,12 @@ jobs: # a collection of steps
       - store_artifacts: # store the uberjar as an artifact
           # Upload test summary for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
           path: target/mybatis-demo-1.0-SNAPSHOT.jar
-  deploy:
-    working_directory: ~/mybatis
-    machine:
-      enabled: true
-    steps:
       - run:
           name: Deploy Over SSH
           command: |
             ls -a
             scp target/mybatis-demo-1.0-SNAPSHOT.jar root@home.godfunc.fun:~/
+
 workflows:
   version: 2
   default:
