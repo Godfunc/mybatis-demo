@@ -32,6 +32,7 @@ jobs: # a collection of steps
           # Upload test summary for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
           path: target/mybatis-demo-1.0-SNAPSHOT.jar
   deploy:
+    working_directory: ~/mybatis
     machine:
       enabled: true
     steps:
