@@ -37,7 +37,9 @@ jobs: # a collection of steps
       - deploy:
           name: Deploy Over SSH
           command: |
-            ls -a
+            echo "disregard ssh known_hosts warnings"
+            echo "UserKnownHostsFile=/dev/null" > ~/.ssh/config
+            echo "StrictHostKeyChecking=no">> ~/.ssh/config
             scp target/mybatis-demo-1.0-SNAPSHOT.jar root@home.godfunc.fun:~/
 
 workflows:
