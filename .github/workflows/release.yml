@@ -17,7 +17,11 @@ jobs:
       - name: Build project
         run: mvn -B package --file pom.xml
       - name: echo github
-        run: echo ${{ github }}
+        run: |
+          echo ${{ github.ref }}
+          echo ${{ github.head_ref }}
+          echo ${{ github.base_ref }}
+          echo ${{ github.workspace }}
       - name: Archive jar
         uses: actions/upload-artifact@v1
         with:

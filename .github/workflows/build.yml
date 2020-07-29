@@ -15,7 +15,11 @@ jobs:
         with:
           java-version: 1.8
       - name: echo github
-        run: echo ${{ github }}
+        run: |
+          echo ${{ github.ref }}
+          echo ${{ github.head_ref }}
+          echo ${{ github.base_ref }}
+          echo ${{ github.workspace }}
       - name: Build project
         run: mvn -B package --file pom.xml
       - name: Archive jar
