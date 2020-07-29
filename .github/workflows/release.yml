@@ -16,6 +16,8 @@ jobs:
           java-version: 1.8
       - name: Build project
         run: mvn -B package --file pom.xml
+      - name: echo github
+        run: echo ${{ github }}
       - name: Archive jar
         uses: actions/upload-artifact@v1
         with:
